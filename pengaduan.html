@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan Customer Service - Elegan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2b2b2b 100%);
+            color: #d4af37;
+        }
+        .chat-container {
+            width: 90%;
+            max-width: 450px;
+            height: 80vh;
+            max-height: 550px;
+            background: #0f0f0f;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #d4af37;
+            margin: 20px;
+        }
+        .chat-header {
+            background: #1c2526;
+            color: #d4af37;
+            padding: 15px;
+            text-align: center;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.2em, 4vw, 1.5em);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .chat-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #151515;
+            border-bottom: 1px solid #d4af37;
+        }
+        .message {
+            margin: 15px 0;
+            padding: 10px 15px;
+            border-radius: 8px;
+            max-width: 85%;
+            font-size: clamp(0.85em, 2.5vw, 0.95em);
+            line-height: 1.4;
+        }
+        .user-message {
+            background: #d4af37;
+            color: #1a1a1a;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .bot-message {
+            background: #2b2b2b;
+            color: #e0e0e0;
+            align-self: flex-start;
+            border: 1px solid #3a3a3a;
+        }
+        .processing-message {
+            background: #1c2526;
+            color: #888;
+            font-style: italic;
+        }
+        .chat-input {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 15px;
+            background: #1c2526;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            gap: 10px;
+        }
+        #userInput {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            outline: none;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            font-family: 'Roboto', sans-serif;
+            min-width: 0;
+        }
+        #userInput::placeholder {
+            color: #888;
+        }
+        button {
+            padding: 10px 20px;
+            background: #d4af37;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #b8972e;
+        }
+        .email-btn {
+            background: #b8972e;
+        }
+        .email-btn:hover {
+            background: #a38227;
+        }
+        .chat-body::-webkit-scrollbar {
+            width: 8px;
+        }
+        .chat-body::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 4px;
+        }
+        .chat-body::-webkit-scrollbar-track {
+            background: #2b2b2b;
+        }
+        @media (max-width: 600px) {
+            .chat-container {
+                width: 95%;
+                height: 90vh;
+                margin: 10px;
+            }
+            .chat-input {
+                flex-direction: column;
+            }
+            button {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>Layanan Pelanggan</h2>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="message bot-message">Selamat datang di layanan eksklusif kami. Silakan ajukan pertanyaan Anda dengan elegan.</div>
+            <div class="message user-message">Halo, apa kabar?</div>
+            <div class="message bot-message">Halo, pelanggan terhormat! Kami baik-baik saja dan siap melayani Anda dengan penuh dedikasi. Bagaimana kami bisa membantu?</div>
+            <div class="message user-message">Produk saya rusak</div>
+            <div class="message bot-message">Kami mohon maaf atas ketidaknyamanan ini. Silakan hubungi penjual melalui email dengan detail produk untuk solusi cepat.</div>
+            <div class="message user-message">Kapan sampai pesanan saya?</div>
+            <div class="message bot-message">Silakan masukkan nomor pesanan Anda pada pesan berikutnya, kami akan menghubungkan Anda ke penjual untuk informasi lebih lanjut.</div>
+            <div class="message user-message">ORD12345</div>
+            <div class="message bot-message">Terima kasih, permintaan Anda telah dialihkan ke email penjual. Silakan periksa aplikasi email Anda.</div>
+            <div class="message user-message">Berapa ongkir ke Surabaya?</div>
+            <div class="message bot-message">Biaya ongkir tergantung lokasi. Masukkan alamat Anda di checkout untuk estimasi akurat.</div>
+            <div class="message user-message">Terima kasih</div>
+            <div class="message bot-message">Dengan senang hati kami membantu. Ada lagi yang bisa kami lakukan untuk Anda?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Ketik pertanyaan Anda...">
+            <button onclick="sendMessage()">Kirim</button>
+            <button class="email-btn" onclick="contactSeller()">Hubungi Penjual</button>
+        </div>
+    </div>
+
+    <script>
+        // Daftar FAQ
+        const faq = {
+            "produk rusak": "Kami mohon maaf atas ketidaknyamanan ini. Silakan hubungi penjual melalui email dengan detail produk untuk solusi cepat.",
+            "pengiriman terlambat": "Mohon maaf atas keterlambatan. Silakan kirimkan nomor pesanan Anda via email agar kami lacak dengan segera.",
+            "cara pembayaran": "Kami menyediakan opsi eksklusif: transfer bank, kartu kredit, dan e-wallet. Pilih metode di halaman checkout kami.",
+            "garansi": "Setiap produk kami dilengkapi garansi 1 tahun. Hubungi penjual dengan bukti pembelian untuk proses klaim.",
+            "kontak": "Untuk komunikasi langsung, gunakan tombol 'Hubungi Penjual' di bawah ini.",
+            "status pesanan": "Silakan masukkan nomor pesanan Anda melalui email untuk kami periksa statusnya dengan cermat.",
+            "batal pesanan": "Pembatalan dapat dilakukan dalam 24 jam setelah pemesanan. Hubungi penjual untuk konfirmasi.",
+            "ganti barang": "Untuk penggantian, kirimkan detail masalah dan foto produk ke penjual melalui email.",
+            "ukuran": "Kami menyediakan panduan ukuran di halaman produk. Jika masih ragu, hubungi penjual untuk saran.",
+            "stok": "Ketersediaan stok dapat dicek di situs kami. Jika habis, hubungi penjual untuk informasi restock.",
+            "harga": "Harga tertera di halaman produk. Untuk penawaran khusus, silakan email penjual.",
+            "promo": "Informasi promo terbaru ada di situs kami atau hubungi penjual untuk penawaran eksklusif.",
+            "resi": "Nomor resi akan dikirim via email setelah pengiriman. Jika belum menerima, hubungi penjual.",
+            "komplain": "Kami siap mendengar keluhan Anda. Silakan kirimkan detailnya ke penjual melalui email.",
+            "retur": "Proses retur diterima dalam 7 hari setelah barang diterima. Hubungi penjual untuk langkah selanjutnya.",
+            "bisa cod": "Kami mendukung COD di wilayah tertentu. Cek ketersediaan dengan penjual melalui email.",
+            "bayar": "Pembayaran dapat dilakukan sebelum pengiriman melalui metode yang tersedia di checkout.",
+            "alamat": "Silakan perbarui alamat pengiriman di akun Anda atau hubungi penjual untuk perubahan.",
+            "ongkir": "Biaya ongkir tergantung lokasi. Masukkan alamat Anda di checkout untuk estimasi akurat.",
+            "expedisi": "Kami bekerja sama dengan JNE, J&T, dan Pos Indonesia. Pilih opsi saat checkout.",
+            "tracking": "Gunakan nomor resi Anda di situs ekspedisi atau hubungi penjual jika ada kendala.",
+            "barang hilang": "Jika barang hilang dalam pengiriman, hubungi penjual dengan nomor pesanan untuk klaim.",
+            "warna": "Pilihan warna tersedia di halaman produk. Jika tidak ada, hubungi penjual untuk konfirmasi.",
+            "bahan": "Detail bahan tertera di deskripsi produk. Untuk pertanyaan lebih lanjut, email penjual.",
+            "preorder": "Produk pre-order membutuhkan waktu tambahan. Cek estimasi di halaman produk atau tanyakan ke penjual.",
+            "diskon": "Diskon berlaku sesuai syarat dan ketentuan di situs. Hubungi penjual untuk detail promo.",
+            "invoice": "Faktur akan dikirim via email setelah pembayaran. Jika belum ada, hubungi penjual.",
+            "restock": "Jadwal restock tergantung stok. Hubungi penjual untuk informasi terbaru.",
+            "custom": "Pesanan kustom tergantung ketersediaan. Silakan hubungi penjual untuk detail.",
+            "pajak": "Harga sudah termasuk PPN kecuali disebutkan lain. Hubungi penjual untuk klarifikasi.",
+            "install": "Panduan instalasi ada di kemasan produk. Jika bingung, hubungi penjual.",
+            "rusak saat sampai": "Jika barang rusak saat diterima, foto dan laporkan ke penjual dalam 24 jam.",
+            "salah barang": "Jika barang salah, hubungi penjual dengan bukti untuk proses penggantian.",
+            "refund": "Proses refund berlaku jika barang tidak sesuai. Hubungi penjual dalam 7 hari.",
+            "jam kerja": "Kami melayani Senin-Jumat, 08.00-17.00. Di luar jam itu, gunakan email.",
+            "chat": "Layanan chat tersedia 24/7 untuk pertanyaan umum. Untuk khusus, hubungi penjual.",
+            "telepon": "Nomor telepon resmi: 0800-123-4567. Alternatif, gunakan email.",
+            "email": "Kirim pertanyaan Anda ke penjual@perusahaan.com atau gunakan tombol 'Hubungi Penjual'.",
+            "lokasi": "Kantor kami di Jakarta. Untuk alamat lengkap, hubungi penjual.",
+            "pengembalian dana": "Pengembalian dana diproses dalam 5-7 hari kerja setelah persetujuan.",
+            "pembayaran gagal": "Jika pembayaran gagal, cek koneksi atau hubungi bank Anda, lalu penjual.",
+            "produk cacat": "Produk cacat dapat ditukar dalam 7 hari. Kirim bukti ke penjual.",
+            "ukuran salah": "Jika ukuran tidak cocok, cek kebijakan retur dan hubungi penjual.",
+            "estimasi": "Estimasi pengiriman 3-7 hari tergantung lokasi. Cek detail dengan nomor pesanan.",
+            "konfirmasi": "Konfirmasi pembayaran otomatis via sistem. Jika bermasalah, hubungi penjual.",
+            "barang ready": "Produk ready stock dikirim dalam 1-2 hari. Cek status di situs.",
+            "voucher": "Gunakan kode voucher di checkout. Jika tidak masuk, hubungi penjual.",
+            "packing": "Kami gunakan packing standar premium. Untuk khusus, beri tahu penjual.",
+            "garansi habis": "Jika garansi habis, hubungi penjual untuk opsi perbaikan berbayar.",
+            "tutorial": "Tutorial produk ada di situs atau kemasan. Jika kurang jelas, email penjual.",
+            "berat": "Berat produk tertera di deskripsi. Untuk detail pengiriman, hubungi penjual.",
+            "panjang": "Dimensi produk ada di halaman detail. Jika tidak jelas, tanyakan ke penjual.",
+            "lebar": "Lebar produk tercantum di deskripsi. Hubungi penjual untuk konfirmasi.",
+            "tinggi": "Tinggi produk ada di spesifikasi. Jika ragu, email penjual.",
+            "daya": "Kebutuhan daya tertera di deskripsi produk. Tanyakan ke penjual untuk detail.",
+            "voltase": "Voltase produk sesuai spesifikasi. Hubungi penjual jika ada pertanyaan.",
+            "kapasitas": "Kapasitas produk ada di halaman detail. Jika perlu klarifikasi, email penjual.",
+            "baterai": "Informasi baterai ada di deskripsi. Hubungi penjual untuk spesifikasi lebih lanjut.",
+            "aksesoris": "Aksesoris termasuk di kemasan sesuai deskripsi. Jika kurang, hubungi penjual.",
+            "manual": "Manual disertakan dalam kemasan. Jika hilang, minta ke penjual.",
+            "penggunaan": "Cara penggunaan ada di manual atau situs. Jika bingung, hubungi penjual.",
+            "perawatan": "Panduan perawatan ada di kemasan. Tanyakan ke penjual untuk tips tambahan.",
+            "expired": "Tanggal kadaluarsa produk (jika ada) tertera di kemasan. Cek dengan penjual.",
+            "keamanan": "Produk kami aman sesuai standar. Untuk detail, hubungi penjual.",
+            "sertifikasi": "Sertifikasi produk ada di deskripsi. Jika perlu bukti, email penjual.",
+            "pemesanan": "Pesan melalui situs atau hubungi penjual untuk bantuan langsung.",
+            "minimum order": "Tidak ada minimum order kecuali disebutkan. Cek dengan penjual.",
+            "grosir": "Harga grosir tersedia untuk jumlah tertentu. Hubungi penjual untuk penawaran.",
+            "sampel": "Sampel produk tergantung ketersediaan. Tanyakan ke penjual.",
+            "pengiriman cepat": "Opsi pengiriman cepat tersedia di checkout. Cek dengan penjual.",
+            "packing kayu": "Packing kayu tersedia dengan biaya tambahan. Hubungi penjual untuk detail.",
+            "fragile": "Produk fragile akan dipacking khusus. Beri tahu penjual saat pesan."
+        };
+
+        // State untuk melacak apakah menunggu nomor pesanan
+        let awaitingOrderNumber = false;
+
+        // Fungsi untuk menambah pesan ke chat
+        function addMessage(text, className) {
+            const chatBody = document.getElementById("chatBody");
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", className);
+            messageDiv.textContent = text;
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        // Fungsi untuk mengirim email manual
+        function contactSeller() {
+            const subject = encodeURIComponent("Pertanyaan Eksklusif dari Pelanggan");
+            const body = encodeURIComponent("Kepada Penjual,\n\nSaya memiliki pertanyaan terkait layanan/produk Anda. Mohon bantuan segera.\n\n[Detail pertanyaan Anda]");
+            window.location.href = `mailto:raafinfl123@gmail.com?subject=${subject}&body=${body}`;
+        }
+
+        // Fungsi utama untuk memproses pesan
+        function sendMessage() {
+            const userInput = document.getElementById("userInput").value.trim().toLowerCase();
+            if (!userInput) return;
+
+            // Tampilkan pesan pengguna
+            addMessage(userInput, "user-message");
+
+    
+
+            setTimeout(() => {
+                // Hapus pesan "Sedang memproses..."
+                const lastProcessing = document.querySelector(".processing-message:last-child");
+                if (lastProcessing) lastProcessing.remove();
+
+                // Jika menunggu nomor pesanan
+                if (awaitingOrderNumber) {
+                    const orderNumber = userInput;
+                    const subject = encodeURIComponent("Permintaan Estimasi Pengiriman Pesanan");
+                    const body = encodeURIComponent(`Kepada Penjual,\n\nSaya ingin mengetahui kapan pesanan saya sampai. Nomor pesanan: ${orderNumber}.\nMohon konfirmasi segera.\n\nTerima kasih,\nPelanggan`);
+                    window.location.href = `mailto:raafinfl123@gmail.com?subject=${subject}&body=${body}`;
+                    addMessage("Terima kasih, permintaan Anda telah dialihkan ke email penjual. Silakan periksa aplikasi email Anda.", "bot-message");
+                    awaitingOrderNumber = false;
+                } else {
+                    // Proses jawaban bot
+                    let response = "Kami mohon maaf, pertanyaan Anda belum dapat kami pahami. Gunakan 'Hubungi Penjual' untuk bantuan lebih lanjut.";
+
+                    // Cek FAQ dan logika tambahan
+                    if (userInput.includes("hai") || userInput.includes("halo")) {
+                        response = "Halo, pelanggan terhormat! Bagaimana kami dapat melayani Anda hari ini?";
+                    } else if (userInput.includes("terima kasih") || userInput.includes("makasih")) {
+                        response = "Dengan senang hati kami membantu. Ada lagi yang bisa kami lakukan untuk Anda?";
+                    } else if (userInput.includes("keluar") || userInput.includes("bye")) {
+                        response = "Terima kasih atas kepercayaan Anda. Sampai jumpa kembali di layanan eksklusif kami.";
+                    } else if (userInput.includes("apa kabar") || userInput.includes("gimana")) {
+                        response = "Kami baik-baik saja dan siap melayani Anda dengan penuh dedikasi. Bagaimana kami bisa membantu?";
+                    } else if (userInput.includes("kapan sampai") || userInput.includes("sampai kapan") || userInput.includes("kapan dikirim")) {
+                        response = "Silakan masukkan nomor pesanan Anda pada pesan berikutnya, kami akan menghubungkan Anda ke penjual untuk informasi lebih lanjut.";
+                        awaitingOrderNumber = true;
+                    } else {
+                        // Cek FAQ
+                        for (let keyword in faq) {
+                            if (userInput.includes(keyword)) {
+                                response = faq[keyword];
+                                break;
+                            }
+                        }
+                    }
+
+                    // Tampilkan jawaban
+                    addMessage(response, "bot-message");
+                }
+            }, 1000);
+
+            // Kosongkan input
+            document.getElementById("userInput").value = "";
+        }
+
+        // Event listener untuk tombol Enter
+        document.getElementById("userInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

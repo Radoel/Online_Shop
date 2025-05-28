@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Kode Barang Ultra Premium</title>
+    <!-- Include QR Code library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Include JsBarcode library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
+    <!-- Include html2canvas library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 50px;
+            background: linear-gradient(135deg, #0f1419 0%, #1e272e 100%);
+            color: #e0e6ed;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.05), transparent 70%);
+            z-index: -1;
+            animation: pulse 10s infinite;
+        }
+        
+        .container {
+            background: linear-gradient(145deg, #1e272e, #28333a);
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(255, 215, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0) 70%);
+            animation: glow 12s infinite;
+            z-index: 0;
+        }
+
+        h2 {
+            font-weight: 600;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 3px 10px rgba(255, 215, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group {
+            margin-bottom: 35px;
+            animation: fadeIn 1s ease-in;
+            position: relative;
+            z-index: 1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: #b2bec3;
+            text-transform: uppercase;
+            font-size: 15px;
+            letter-spacing: 1.5px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="text"],
+        input[type="file"],
+        input[type="number"] {
+            width: 100%;
+            padding: 16px;
+            background: #1e272e;
+            border: 1px solid #3b4149;
+            border-radius: 12px;
+            color: #e0e6ed;
+            font-size: 16px;
+            transition: all 0.4s ease;
+            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        input:focus {
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), inset 0 3px 8px rgba(0, 0, 0, 0.3);
+            outline: none;
+        }
+
+        button {
+            background: linear-gradient(45deg, #ffd700, #ffaa00);
+            color: #1e272e;
+            padding: 16px 35px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.7);
+        }
+
+        #itemList {
+            margin-top: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .item {
+            background: linear-gradient(145deg, #28333a, #2e3941);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 0 8px rgba(255, 215, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 35px;
+            align-items: flex-start;
+            animation: slideIn 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            animation: shine 4s infinite;
+        }
+
+        .item-code {
+            font-family: 'Roboto Mono', monospace;
+            background: #1e272e;
+            padding: 10px 18px;
+            border-radius: 10px;
+            color: #ffd700;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            font-size: 16px;
+        }
+
+        .preview {
+            max-width: 280px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .preview:hover {
+            transform: scale(1.05);
+        }
+
+        .code-container {
+            display: flex;
+            gap: 35px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .qr-code, .qris-code, .barcode {
+            text-align: center;
+            transition: all 0.4s ease;
+            background: #1e272e;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .qr-code:hover, .qris-code:hover, .barcode:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .qr-label {
+            font-size: 14px;
+            color: #b2bec3;
+            margin-top: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .barcode canvas {
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .download-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ffaa00);
+            padding: 12px 25px;
+            font-size: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            color: #1e272e;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.6);
+        }
+
+        .item-link {
+            color: #ffd700;
+            font-size: 16px;
+            margin-top: 15px;
+            word-break: break-all;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .item-link a {
+            color: #ffd700;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .item-link a:hover {
+            color: #ffaa00;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 0.4; }
+            100% { opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sistem Kode Barang Ultra Premium</h2>
+        
+        <div class="form-group">
+            <label for="itemName">Nama Barang</label>
+            <input type="text" id="itemName" placeholder="Masukkan nama barang">
+        </div>
+
+        <div class="form-group">
+            <label for="itemPrice">Harga Barang (Rp)</label>
+            <input type="number" id="itemPrice" placeholder="Masukkan harga barang" min="0">
+        </div>
+
+        <div class="form-group">
+            <label for="itemFile">Upload File (PDF/Gambar)</label>
+            <input type="file" id="itemFile" accept=".pdf, .jpg, .jpeg, .png">
+        </div>
+
+        <button onclick="addItem()">Tambah Barang</button>
+
+        <div id="itemList"></div>
+    </div>
+
+    <script>
+        let items = JSON.parse(localStorage.getItem('items')) || [];
+
+        function generateCoolItemCode() {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const numbers = '0123456789';
+            const randomLetter = () => letters[Math.floor(Math.random() * letters.length)];
+            const randomNumber = () => numbers[Math.floor(Math.random() * numbers.length)];
+            return `${randomLetter()}${randomNumber()}${randomLetter()}${randomNumber()}${randomLetter()}${randomNumber()}`;
+        }
+
+        function generateQRISData(itemCode, itemName, itemPrice) {
+            const merchantId = "ID123456789";
+            return `ID:${merchantId}|ITEM:${itemCode}|NAME:${itemName}|AMOUNT:${itemPrice}`;
+        }
+
+        function generateItemLink(itemCode) {
+            return `${window.location.origin}${window.location.pathname}?item=${itemCode}`;
+        }
+
+        function addItem() {
+            const itemName = document.getElementById('itemName').value;
+            const itemPrice = document.getElementById('itemPrice').value;
+            const itemFile = document.getElementById('itemFile').files[0];
+            
+            if (!itemName || !itemPrice || !itemFile) {
+                alert('Mohon isi semua field: nama barang, harga, dan upload file!');
+                return;
+            }
+
+            const itemCode = generateCoolItemCode();
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const item = {
+                    code: itemCode,
+                    name: itemName,
+                    price: parseInt(itemPrice),
+                    fileType: itemFile.type,
+                    fileData: e.target.result
+                };
+
+                items.push(item);
+                localStorage.setItem('items', JSON.stringify(items));
+                displayItems();
+                
+                document.getElementById('itemName').value = '';
+                document.getElementById('itemPrice').value = '';
+                document.getElementById('itemFile').value = '';
+            };
+
+            reader.readAsDataURL(itemFile);
+        }
+
+        function formatRupiah(amount) {
+            return 'Rp ' + amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        function downloadCodes(itemCode) {
+            const itemElement = document.getElementById(`item-${itemCode}`);
+            setTimeout(() => {
+                html2canvas(itemElement, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#28333a'
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `kode_barang_${itemCode}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                }).catch(err => {
+                    console.error('Error generating canvas:', err);
+                    alert('Gagal mendownload, coba lagi.');
+                });
+            }, 700); // Delay lebih panjang untuk memastikan barcode muncul
+        }
+
+        function displayItems(filterCode = null) {
+            const itemList = document.getElementById('itemList');
+            itemList.innerHTML = '';
+
+            let displayItems = filterCode 
+                ? items.filter(item => item.code === filterCode) 
+                : items;
+
+            if (displayItems.length === 0 && filterCode) {
+                itemList.innerHTML = '<p style="text-align: center; color: #b2bec3;">Barang tidak ditemukan.</p>';
+                return;
+            }
+
+            displayItems.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'item';
+                itemDiv.id = `item-${item.code}`;
+                
+                let filePreview = '';
+                if (item.fileType.includes('image')) {
+                    filePreview = `<img src="${item.fileData}" class="preview" alt="Preview">`;
+                } else if (item.fileType === 'application/pdf') {
+                    filePreview = `<p>File PDF: <a href="${item.fileData}" target="_blank" style="color: #ffd700;">Lihat PDF</a></p>`;
+                }
+
+                const codeContainer = document.createElement('div');
+                codeContainer.className = 'code-container';
+
+                const qrDiv = document.createElement('div');
+                qrDiv.className = 'qr-code';
+                qrDiv.id = `qr-${item.code}`;
+                qrDiv.innerHTML = '<div class="qr-label">Kode Barang</div>';
+                
+                const qrisDiv = document.createElement('div');
+                qrisDiv.className = 'qris-code';
+                qrisDiv.id = `qris-${item.code}`;
+                qrisDiv.innerHTML = '<div class="qr-label">QRIS Pembayaran</div>';
+
+                const barcodeDiv = document.createElement('div');
+                barcodeDiv.className = 'barcode';
+                barcodeDiv.id = `barcode-${item.code}`;
+                barcodeDiv.innerHTML = '<div class="qr-label">Barcode</div>';
+
+                const itemLink = generateItemLink(item.code);
+
+                itemDiv.innerHTML = `
+                    <div class="item-details">
+                        <p><strong>Kode Barang:</strong> <span class="item-code">${item.code}</span></p>
+                        <p><strong>Nama Barang:</strong> ${item.name}</p>
+                        <p><strong>Harga:</strong> ${formatRupiah(item.price)}</p>
+                        ${filePreview}
+                        <p class="item-link">Link: <a href="${itemLink}" target="_blank">${itemLink}</a></p>
+                        <button class="download-btn" onclick="downloadCodes('${item.code}')">Download Semua Kode</button>
+                    </div>
+                `;
+                
+                codeContainer.appendChild(qrDiv);
+                codeContainer.appendChild(qrisDiv);
+                codeContainer.appendChild(barcodeDiv);
+                itemDiv.appendChild(codeContainer);
+                itemList.appendChild(itemDiv);
+
+                new QRCode(qrDiv, {
+                    text: itemLink,
+                    width: 120,
+                    height: 120,
+                    colorDark: "#ffd700",
+                    colorLight: "#1e272e",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+
+                const qrisData = generateQRISData(item.code, item.name, item.price);
+                new QRCode(qrisDiv, {
+                    text: qrisData,
+                    width: 120,
+                    height: 120,
+                    colorDark: "#ffd700",
+                    colorLight: "#1e272e",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+
+                // Pastikan barcode dirender dengan benar
+                setTimeout(() => {
+                    JsBarcode(`#barcode-${item.code}`, item.code, {
+                        format: "CODE128",
+                        width: 2,
+                        height: 60,
+                        displayValue: true,
+                        fontSize: 16,
+                        margin: 10,
+                        background: "#1e272e",
+                        lineColor: "#ffd700"
+                    });
+                }, 100); // Delay kecil untuk memastikan DOM siap
+            });
+        }
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const itemCode = urlParams.get('item');
+            displayItems(itemCode);
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a0933, #4b1e8e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Efek latar belakang animasi */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            animation: glow 15s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(1.2); opacity: 0.5; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.8s ease-out;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-box h1 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            border: 1px solid #ffd700;
+        }
+
+        .form-group label {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus + label,
+        .form-group input:not(:placeholder-shown) + label {
+            top: -10px;
+            font-size: 12px;
+            color: #ffd700;
+            background: rgba(26, 9, 51, 0.8);
+            padding: 0 5px;
+            border-radius: 5px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            border: none;
+            border-radius: 25px;
+            color: #1a0933;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .register-link a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .register-link a:hover {
+            color: #ffd700;
+            text-decoration: underline;
+        }
+
+        /* Efek Loading Transisi */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 9, 51, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 1000;
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #ffd700;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite, pulse 1.5s infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+
+        .error {
+            color: #ff4d4d;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 30px 20px;
+            }
+            .login-box h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-box" id="loginBox">
+            <h1>Login</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <input type="text" id="username" placeholder=" " required>
+                    <label for="username">Username</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder=" " required>
+                    <label for="password">Password</label>
+                </div>
+                <button type="submit" class="btn">Masuk</button>
+            </form>
+            <p class="error" id="errorMessage"></p>
+            <div class="register-link">
+                <a href="register.html">Belum ada akun? Daftar di sini</a>
+            </div>
+        </div>
+    </div>
+    <!-- Overlay Loading -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader"></div>
+    </div>
+
+    <script>
+        class LoginHandler {
+            constructor() {
+                this.form = document.getElementById('loginForm');
+                this.usernameInput = document.getElementById('username');
+                this.passwordInput = document.getElementById('password');
+                this.errorMessage = document.getElementById('errorMessage');
+                this.loginBox = document.getElementById('loginBox');
+                this.loadingOverlay = document.getElementById('loadingOverlay');
+                this.savedAccount = JSON.parse(localStorage.getItem('account')) || null;
+                this.checkAccount();
+                this.initEventListeners();
+            }
+
+            checkAccount() {
+                if (!this.savedAccount) {
+                    this.loginBox.innerHTML = `
+                        <h1>Belum Ada Akun</h1>
+                        <p style="text-align: center; color: #fff; margin-bottom: 20px;">
+                            Silakan buat akun terlebih dahulu.
+                        </p>
+                        <a href="register.html" class="btn">Daftar Sekarang</a>
+                    `;
+                }
+            }
+
+            initEventListeners() {
+                if (this.form) {
+                    this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+                    this.usernameInput.addEventListener('input', () => this.validateRealTime());
+                    this.passwordInput.addEventListener('input', () => this.validateRealTime());
+                }
+            }
+
+            validateUsername(username) {
+                return username.length >= 3;
+            }
+
+            validatePassword(password) {
+                return password.length >= 9;
+            }
+
+            validateRealTime() {
+                const username = this.usernameInput.value;
+                const password = this.passwordInput.value;
+
+                this.usernameInput.style.border = username && !this.validateUsername(username) 
+                    ? '2px solid #ff4d4d' 
+                    : 'none';
+                
+                this.passwordInput.style.border = password && !this.validatePassword(password) 
+                    ? '2px solid #ff4d4d' 
+                    : 'none';
+
+                this.errorMessage.style.display = 'none';
+            }
+
+            async handleSubmit(e) {
+                e.preventDefault();
+
+                const username = this.usernameInput.value.trim();
+                const password = this.passwordInput.value.trim();
+
+                if (!username || !password) {
+                    this.showError('Semua kolom harus diisi!');
+                    return;
+                }
+
+                if (!this.validateUsername(username)) {
+                    this.showError('Username minimal 3 karakter!');
+                    return;
+                }
+
+                if (!this.validatePassword(password)) {
+                    this.showError('Password minimal 9 karakter!');
+                    return;
+                }
+
+                if (!this.savedAccount || 
+                    this.savedAccount.username !== username || 
+                    this.savedAccount.password !== password) {
+                    this.showError('Username atau password salah!');
+                    return;
+                }
+
+                // Tampilkan overlay loading
+                this.showLoading();
+
+                try {
+                    await this.fakeLoginProcess(username, password);
+                    
+                    this.savedAccount.isLoggedIn = true;
+                    localStorage.setItem('account', JSON.stringify(this.savedAccount));
+
+                    // Animasi sebelum redirect
+                    this.loginBox.style.transform = 'scale(0.9)';
+                    this.loginBox.style.opacity = '0';
+
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000); // Tunggu 1 detik agar animasi loading terlihat
+                } catch (error) {
+                    this.hideLoading();
+                    this.showError('Login gagal! Coba lagi.');
+                }
+            }
+
+            async fakeLoginProcess(username, password) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        console.log('Login successful:', { username, password });
+                        resolve(true);
+                    }, 800);
+                });
+            }
+
+            showLoading() {
+                this.loadingOverlay.classList.add('active');
+            }
+
+            hideLoading() {
+                this.loadingOverlay.classList.remove('active');
+            }
+
+            showError(message) {
+                this.errorMessage.textContent = message;
+                this.errorMessage.style.display = 'block';
+                this.loginBox.style.animation = 'shake 0.3s ease';
+                setTimeout(() => {
+                    this.loginBox.style.animation = '';
+                }, 300);
+            }
+        }
+
+        const login = new LoginHandler();
+    </script>
+</body>
+</html>

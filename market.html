@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="logo.jpeg">
+    <audio id="coolNotification" src="https://www.soundjay.com/buttons/sci-fi-beep-01.mp3" preload="auto"></audio>
+    <title>Marketplace Elegan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            scrollbar-width: thin;
+            scrollbar-color: #C19A2E #0A0F2A;
+        }
+
+        body {
+            background: #0A0F2A;
+            color: #F8F1E9;
+            line-height: 1.8;
+            padding-top: 100px;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, #0A0F2A 0%, #1E1E2F 100%);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(193, 154, 46, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 80px;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: #C19A2E;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 10px rgba(193, 154, 46, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #F8F1E9;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 8px 12px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #C19A2E;
+            transform: translateY(-2px);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #C19A2E;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .nav-toggle {
+            display: none;
+            font-size: 2rem;
+            color: #F8F1E9;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-toggle:hover {
+            transform: rotate(90deg);
+            color: #C19A2E;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 8px 15px;
+            border-radius: 30px;
+            border: 1px solid rgba(193, 154, 46, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .search-container:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(193, 154, 46, 0.4);
+        }
+
+        .search-select, .search-input {
+            background: transparent;
+            border: none;
+            color: #F8F1E9;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            border-radius: 20px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-select {
+            border-right: 1px solid rgba(193, 154, 46, 0.2);
+        }
+
+        .search-input {
+            width: 180px;
+        }
+
+        .search-select:focus, .search-input:focus {
+            color: #C19A2E;
+        }
+
+        .qr-scan-button {
+            background: linear-gradient(135deg, #C19A2E, #A07D27);
+            border: none;
+            color: #0A0F2A;
+            font-size: 1.2rem;
+            padding: 8px 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .qr-scan-button:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 15px rgba(193, 154, 46, 0.5);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1E1E2F, #3B3B5E);
+            color: #F8F1E9;
+            padding: 5rem 2rem;
+            text-align: center;
+            border-radius: 0 0 50px 50px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(193, 154, 46, 0.15) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+            text-shadow: 0 5px 20px rgba(193, 154, 46, 0.6);
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-size: 1.4rem;
+            color: rgba(248, 241, 233, 0.85);
+            margin-top: 20px;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            margin: 60px 0;
+        }
+
+        .product-card {
+            background: #1E1E2F;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(193, 154, 46, 0.15);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
+            border-color: rgba(193, 154, 46, 0.4);
+        }
+
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 260px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.12);
+        }
+
+        .product-code-overlay {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #F8F1E9;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .product-card.ordered .product-code-overlay {
+            display: block;
+        }
+
+        .product-info {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .product-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #F8F1E9;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .product-price {
+            font-size: 1.9rem;
+            color: #C19A2E;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .buy-button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #C19A2E, #A07D27);
+            color: #F8F1E9;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .buy-button:hover {
+            background: linear-gradient(90deg, #A07D27, #C19A2E);
+            box-shadow: 0 6px 25px rgba(193, 154, 46, 0.6);
+            transform: translateY(-3px);
+        }
+
+        .buy-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+
+        .buy-button:active::after {
+            width: 300%;
+            height: 300%;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 1000;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: #1E1E2F;
+            width: 90%;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(193, 154, 46, 0.25);
+            animation: slideIn 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-70px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #F8F1E9;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #C19A2E;
+            transform: rotate(90deg);
+        }
+
+        .modal-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #F8F1E9;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .option-label {
+            font-size: 0.9rem;
+            color: #F8F1E9;
+            font-weight: 500;
+        }
+
+        .option-select {
+            width: 100%;
+            padding: 8px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(193, 154, 46, 0.3);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #F8F1E9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-select:focus {
+            border-color: #C19A2E;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 3px 15px rgba(193, 154, 46, 0.4);
+        }
+
+        .estimation-text {
+            font-size: 0.85rem;
+            color: rgba(248, 241, 233, 0.75);
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .confirm-button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #C19A2E, #A07D27);
+            color: #F8F1E9;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.4s ease;
+            margin-top: 8px;
+        }
+
+        .confirm-button:hover {
+            background: linear-gradient(90deg, #A07D27, #C19A2E);
+            box-shadow: 0 6px 25px rgba(193, 154, 46, 0.6);
+        }
+
+        /* Cart */
+        .cart-icon {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 75px;
+            height: 75px;
+            background: linear-gradient(135deg, #1E1E2F, #3B3B5E);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(193, 154, 46, 0.2);
+        }
+
+        .cart-icon:hover {
+            background: linear-gradient(135deg, #3B3B5E, #5C5C8A);
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(193, 154, 46, 0.4);
+        }
+
+        .cart-icon::before {
+            content: '🛒';
+            font-size: 2.2rem;
+            color: #F8F1E9;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #C19A2E;
+            color: #0A0F2A;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .cart-dropdown {
+            display: none;
+            position: fixed;
+            bottom: 120px;
+            right: 30px;
+            background: #1E1E2F;
+            width: 360px;
+            max-height: 480px;
+            overflow-y: auto;
+            border-radius: 25px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            z-index: 998;
+            border: 1px solid rgba(193, 154, 46, 0.25);
+        }
+
+        .cart-dropdown h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #F8F1E9;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(193, 154, 46, 0.15);
+            gap: 20px;
+        }
+
+        .cart-item img {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .cart-item-details {
+            flex: 1;
+            font-size: 0.95rem;
+            color: #F8F1E9;
+        }
+
+        .cart-item-details span {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .cancel-button, .confirm-order-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-button {
+            background: linear-gradient(90deg, #FF4D4D, #FF1A1A);
+            color: #F8F1E9;
+        }
+
+        .cancel-button:hover {
+            background: linear-gradient(90deg, #FF1A1A, #CC0000);
+            box-shadow: 0 3px 15px rgba(255, 0, 0, 0.5);
+        }
+
+        .confirm-order-button {
+            background: linear-gradient(90deg, #4CAF50, #45A049);
+            color: #F8F1E9;
+        }
+
+        .confirm-order-button:hover {
+            background: linear-gradient(90deg, #45A049, #3D8B40);
+            box-shadow: 0 3px 15px rgba(0, 255, 0, 0.5);
+        }
+
+        /* QR Reader */
+        #qr-reader {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            background: #1E1E2F;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(193, 154, 46, 0.25);
+        }
+
+        #qr-reader video {
+            max-width: 100%;
+            border-radius: 15px;
+        }
+
+        /* Message Modal */
+        .message-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 1000;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .message-modal-content {
+            background: #1E1E2F;
+            width: 90%;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(193, 154, 46, 0.25);
+            animation: slideIn 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message-modal-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #F8F1E9;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .message-modal-content select {
+            width: 100%;
+            padding: 8px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(193, 154, 46, 0.3);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #F8F1E9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .message-modal-content select:focus {
+            border-color: #C19A2E;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .message-modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(193, 154, 46, 0.3);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #F8F1E9;
+            resize: vertical;
+            min-height: 100px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .message-modal-content textarea:focus {
+            border-color: #C19A2E;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .message-modal-content button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #C19A2E, #A07D27);
+            color: #F8F1E9;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.4s ease;
+        }
+
+        .message-modal-content button:hover {
+            background: linear-gradient(90deg, #A07D27, #C19A2E);
+            box-shadow: 0 6px 25px rgba(193, 154, 46, 0.6);
+        }
+
+        .close-message-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #F8F1E9;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .close-message-modal:hover {
+            color: #C19A2E;
+            transform: rotate(90deg);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 20px;
+                flex-direction: column;
+                align-items: flex-start;
+                height: auto;
+            }
+
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding: 2rem 0;
+                background: #1E1E2F;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                gap: 1.5rem;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+                position: absolute;
+                top: 1.5rem;
+                right: 20px;
+            }
+
+            .search-container {
+                width: 100%;
+                margin-top: 15px;
+                padding: 10px 20px;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            header h1 {
+                font-size: 2.8rem;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                max-width: 90%;
+                margin: 20px auto;
+                padding: 25px;
+            }
+
+            .cart-dropdown {
+                width: 300px;
+                bottom: 100px;
+            }
+
+            .cart-icon {
+                bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-logo {
+                font-size: 1.8rem;
+            }
+
+            .product-card {
+                margin: 0 10px;
+            }
+
+            .product-info {
+                padding: 20px;
+            }
+
+            .cart-icon {
+                width: 60px;
+                height: 60px;
+                bottom: 15px;
+            }
+
+            .cart-icon::before {
+                font-size: 1.8rem;
+            }
+
+            .cart-dropdown {
+                width: 260px;
+                bottom: 80px;
+            }
+
+            .search-select, .search-input {
+                padding: 6px 10px;
+                font-size: 0.85rem;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .option-select {
+                padding: 6px;
+                font-size: 0.8rem;
+            }
+
+            .confirm-button {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">Marketplace Elegan</div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="dashboard.html">Home</a></li>
+                <li><a href="#" id="messageLink">Pesan</a></li>
+                <li><a href="pengaduan.html">Pengaduan</a></li>
+                <li class="search-container">
+                    <select class="search-select" id="searchOption">
+                        <option value="title">Judul</option>
+                        <option value="price">Harga</option>
+                        <option value="category">Kategori</option>
+                    </select>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Cari produk...">
+                </li>
+                <li>
+                    <button class="qr-scan-button" id="qrScanButton" title="Scan QR Code">📷</button>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="navToggle">☰</div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header id="home">
+            <h1>Marketplace Elegan</h1>
+            <p>Belanja dengan Kelas</p>
+        </header>
+
+        <div class="product-grid" id="productGrid">
+            <div class="product-card" data-category="Audio">
+                <div class="product-image-container">
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e" alt="Headphone" class="product-image">
+                    <span class="product-code-overlay" data-code=""></span>
+                </div>
+                <div class="product-info">
+                    <h2 class="product-title">Headphone Premium</h2>
+                    <p class="product-price">Rp 799.000</p>
+                    <button class="buy-button" 
+                            data-title="Headphone Premium" 
+                            data-price="Rp 799.000" 
+                            data-image="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
+                            data-variants='{"colors": ["Hitam", "Putih", "Merah"], "sizes": ["S", "M", "L"]}'>
+                        Beli Sekarang
+                    </button>
+                </div>
+            </div>
+            <div class="product-card" data-category="Wearable">
+                <div class="product-image-container">
+                    <img src="https://images.unsplash.com/photo-1523275339254-cc67719d2a2d" alt="Smartwatch" class="product-image">
+                    <span class="product-code-overlay" data-code=""></span>
+                </div>
+                <div class="product-info">
+                    <h2 class="product-title">Smartwatch Elegan</h2>
+                    <p class="product-price">Rp 1.999.000</p>
+                    <button class="buy-button" 
+                            data-title="Smartwatch Elegan" 
+                            data-price="Rp 1.999.000" 
+                            data-image="https://images.unsplash.com/photo-1523275339254-cc67719d2a2d"
+                            data-variants='{"colors": ["Silver", "Hitam", "Emas"], "sizes": ["38mm", "42mm"]}'>
+                        Beli Sekarang
+                    </button>
+                </div>
+            </div>
+            <div class="product-card" data-category="Elektronik">
+                <div class="product-image-container">
+                    <img src="https://images.unsplash.com/photo-1491472253230-a044054ca35f" alt="Laptop" class="product-image">
+                    <span class="product-code-overlay" data-code=""></span>
+                </div>
+                <div class="product-info">
+                    <h2 class="product-title">Laptop High-End</h2>
+                    <p class="product-price">Rp 19.999.000</p>
+                    <button class="buy-button" 
+                            data-title="Laptop High-End" 
+                            data-price="Rp 19.999.000" 
+                            data-image="https://images.unsplash.com/photo-1491472253230-a044054ca35f"
+                            data-variants='{"colors": ["Abu-abu", "Hitam"], "sizes": ["13 inch", "15 inch"]}'>
+                        Beli Sekarang
+                    </button>
+                </div>
+            </div>
+            <div class="product-card" data-category="Kamera">
+                <div class="product-image-container">
+                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc49" alt="Kamera" class="product-image">
+                    <span class="product-code-overlay" data-code=""></span>
+                </div>
+                <div class="product-info">
+                    <h2 class="product-title">Kamera Profesional</h2>
+                    <p class="product-price">Rp 12.499.000</p>
+                    <button class="buy-button" 
+                            data-title="Kamera Profesional" 
+                            data-price="Rp 12.499.000" 
+                            data-image="https://images.unsplash.com/photo-1516035069371-29a1b244cc49"
+                            data-variants='{"colors": ["Hitam", "Silver"], "sizes": ["Standar"]}'>
+                        Beli Sekarang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="buyModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">×</span>
+            <h3>Konfirmasi Pembelian</h3>
+            <div class="options-container">
+                <label class="option-label">Jumlah:</label>
+                <input type="number" id="quantity" min="1" value="1" class="option-select">
+            </div>
+            <div class="options-container">
+                <label class="option-label">Warna:</label>
+                <select class="option-select" id="colorOption"></select>
+            </div>
+            <div class="options-container">
+                <label class="option-label">Ukuran:</label>
+                <select class="option-select" id="sizeOption"></select>
+            </div>
+            <div class="options-container">
+                <label class="option-label">Lokasi Pengiriman:</label>
+                <select class="option-select" id="locationOption">
+                    <option value="" disabled selected>Pilih Lokasi</option>
+                    <option value="Kota Bekasi" data-distance="15">Kota Bekasi</option>
+                    <option value="Kota Jakarta Pusat, DKI Jakarta" data-distance="25">Kota Jakarta Pusat</option>
+                    <option value="Kota Bandung, Jawa Barat" data-distance="120">Kota Bandung</option>
+                    <option value="Kota Surabaya, Jawa Timur" data-distance="780">Kota Surabaya</option>
+                    <option value="Kota Medan, Sumatera Utara" data-distance="1420">Kota Medan</option>
+                    <option value="Kota Makassar, Sulawesi Selatan" data-distance="1400">Kota Makassar</option>
+                    <option value="Kota Yogyakarta, DI Yogyakarta" data-distance="430">Kota Yogyakarta</option>
+                    <option value="Kota Denpasar, Bali" data-distance="960">Kota Denpasar</option>
+                </select>
+            </div>
+            <p class="estimation-text" id="estimationText">Estimasi: Pilih lokasi</p>
+            <button class="confirm-button" id="confirmBuy">Tambah ke Keranjang</button>
+        </div>
+    </div>
+
+    <!-- Modal untuk pesan -->
+    <div class="message-modal" id="messageModal">
+        <div class="message-modal-content">
+            <span class="close-message-modal" id="closeMessageModal">×</span>
+            <h3>Kirim Pesan ke Penjual</h3>
+            <select id="messageOrderSelect">
+                <option value="" disabled selected>Pilih Pesanan</option>
+            </select>
+            <textarea id="messageText" placeholder="Tulis pesan Anda untuk penjual..."></textarea>
+            <button id="sendMessage">Kirim Pesan</button>
+        </div>
+    </div>
+
+    <div class="cart-icon" id="cartIcon">
+        <span class="cart-count" id="cartCount">0</span>
+    </div>
+    <div class="cart-dropdown" id="cartDropdown">
+        <h2>Keranjang Belanja</h2>
+        <ul class="cart-items" id="cartItems"></ul>
+    </div>
+
+    <div id="qr-reader"></div>
+
+    <script>
+let products = JSON.parse(localStorage.getItem('products')) || [];
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let messages = JSON.parse(localStorage.getItem('messages')) || [];
+let selectedProduct = null;
+let qrScanner = null;
+
+const notificationSound = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+const coolConfirmSound = document.getElementById('coolNotification');
+
+const elements = {
+    cartItems: document.getElementById('cartItems'),
+    buyModal: document.getElementById('buyModal'),
+    closeModal: document.getElementById('closeModal'),
+    quantityInput: document.getElementById('quantity'),
+    colorOption: document.getElementById('colorOption'),
+    sizeOption: document.getElementById('sizeOption'),
+    locationOption: document.getElementById('locationOption'),
+    estimationText: document.getElementById('estimationText'),
+    confirmBuy: document.getElementById('confirmBuy'),
+    cartIcon: document.getElementById('cartIcon'),
+    cartDropdown: document.getElementById('cartDropdown'),
+    cartCount: document.getElementById('cartCount'),
+    navToggle: document.getElementById('navToggle'),
+    navMenu: document.getElementById('navMenu'),
+    searchInput: document.getElementById('searchInput'),
+    searchOption: document.getElementById('searchOption'),
+    productGrid: document.getElementById('productGrid'),
+    qrScanButton: document.getElementById('qrScanButton'),
+    qrReader: document.getElementById('qr-reader'),
+    messageLink: document.getElementById('messageLink'),
+    messageModal: document.getElementById('messageModal'),
+    closeMessageModal: document.getElementById('closeMessageModal'),
+    sendMessage: document.getElementById('sendMessage'),
+    messageText: document.getElementById('messageText'),
+    messageOrderSelect: document.getElementById('messageOrderSelect')
+};
+const productCards = Array.from(elements.productGrid.getElementsByClassName('product-card'));
+
+// Load products from server
+function loadProductsFromServer() {
+    fetch('/api/products?sort_by=created_at&ascending=false')
+        .then(response => response.json())
+        .then(productsData => {
+            elements.productGrid.innerHTML = '';
+            productCards.forEach(card => elements.productGrid.appendChild(card.cloneNode(true)));
+            
+            products = productsData;
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.dataset.category = product.category;
+                productCard.innerHTML = `
+                    <div class="product-image-container">
+                        <img src="${product.image_path}" alt="${product.name}" class="product-image">
+                        <span class="product-code-overlay" data-code="${product.code}">${product.code}</span>
+                    </div>
+                    <div class="product-info">
+                        <h2 class="product-title">${product.name}</h2>
+                        <p class="product-price">Rp ${product.price.toLocaleString('id-ID')}</p>
+                        <button class="buy-button" 
+                                data-title="${product.name}" 
+                                data-price="Rp ${product.price.toLocaleString('id-ID')}" 
+                                data-image="${product.image_path}"
+                                data-code="${product.code}"
+                                data-variants='{"colors": ["Hitam", "Putih"], "sizes": ["Standar"]}'>
+                            Beli Sekarang
+                        </button>
+                    </div>
+                `;
+                elements.productGrid.appendChild(productCard);
+            });
+            updateProductCardStatus();
+        })
+        .catch(error => {
+            console.error('Error loading products:', error);
+            loadProductsLocal();
+        });
+}
+
+// Load products from localStorage (fallback)
+function loadProductsLocal() {
+    const storedProducts = JSON.parse(localStorage.getItem('products')) || [];
+    const uniqueProducts = [];
+
+    storedProducts.forEach(product => {
+        const existingProduct = uniqueProducts.find(p => p.image === product.image);
+        if (!existingProduct) {
+            uniqueProducts.push(product);
+        } else {
+            const index = uniqueProducts.indexOf(existingProduct);
+            uniqueProducts[index] = product;
+        }
+    });
+
+    uniqueProducts.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.dataset.category = product.category;
+        productCard.innerHTML = `
+            <div class="product-image-container">
+                <img src="${product.image}" alt="${product.name}" class="product-image">
+                <span class="product-code-overlay" data-code="${product.code}">${product.code}</span>
+            </div>
+            <div class="product-info">
+                <h2 class="product-title">${product.name}</h2>
+                <p class="product-price">Rp ${product.price}</p>
+                <button class="buy-button" 
+                        data-title="${product.name}" 
+                        data-price="Rp ${product.price}" 
+                        data-image="${product.image}"
+                        data-code="${product.code}"
+                        data-variants='{"colors": ["Hitam", "Putih"], "sizes": ["Standar"]}'>
+                    Beli Sekarang
+                </button>
+            </div>
+        `;
+        elements.productGrid.appendChild(productCard);
+    });
+
+    localStorage.setItem('products', JSON.stringify(uniqueProducts));
+    products = uniqueProducts;
+    updateProductCardStatus();
+}
+
+// Show message modal
+function showMessageModal() {
+    elements.messageModal.style.display = 'block';
+    elements.messageText.value = '';
+    populateOrderSelect();
+}
+
+// Hide message modal
+function hideMessageModal() {
+    elements.messageModal.style.display = 'none';
+}
+
+// Populate order select dropdown
+function populateOrderSelect() {
+    elements.messageOrderSelect.innerHTML = '<option value="" disabled selected>Pilih Pesanan</option>';
+    cart.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.orderId;
+        option.textContent = `${item.title} (x${item.quantity}) - ${item.price}`;
+        elements.messageOrderSelect.appendChild(option);
+    });
+}
+
+// Send message to seller and save it
+function sendMessage() {
+    const orderId = elements.messageOrderSelect.value;
+    const messageText = elements.messageText.value.trim();
+
+    if (!orderId) {
+        alert('Pilih pesanan terlebih dahulu!');
+        return;
+    }
+    if (!messageText) {
+        alert('Pesan tidak boleh kosong!');
+        return;
+    }
+
+    const order = cart.find(item => item.orderId === orderId);
+    if (!order) {
+        alert('Pesanan tidak ditemukan!');
+        return;
+    }
+
+    const message = {
+        id: Date.now().toString(),
+        orderId: order.orderId,
+        productTitle: order.title,
+        message: messageText,
+        timestamp: new Date().toLocaleString('id-ID'),
+        status: 'sent'
+    };
+
+    // Save message to localStorage
+    messages.push(message);
+    localStorage.setItem('messages', JSON.stringify(messages));
+
+    // Send message to seller via EmailJS
+    const templateParams = {
+        to_email: "raafinfl123@gmail.com",
+        product_title: order.title,
+        message: messageText,
+        order_id: order.orderId,
+        quantity: order.quantity,
+        price: order.price,
+        from_name: "Pembeli",
+        timestamp: message.timestamp
+    };
+
+    emailjs.send('Kompe', 'template_qn9g45n', templateParams)
+        .then(() => {
+            alert('Pesan berhasil dikirim ke penjual dan disimpan!');
+            hideMessageModal();
+            notificationSound.play();
+        })
+        .catch(error => {
+            console.error('Gagal mengirim pesan:', error);
+            message.status = 'failed';
+            localStorage.setItem('messages', JSON.stringify(messages));
+            alert('Gagal mengirim pesan ke penjual, tetapi pesan disimpan lokal.');
+            hideMessageModal();
+        });
+}
+
+(function(){
+    emailjs.init("yXEqc6wnL9tg-0_wZ");
+})();
+
+const saveCart = () => localStorage.setItem('cart', JSON.stringify(cart));
+
+// Add to cart and mark as ordered
+const addToCart = (title, price, quantity, color, size, image, code, location) => {
+    const selectedOption = elements.locationOption.options[elements.locationOption.selectedIndex];
+    const distance = selectedOption.dataset.distance ? parseInt(selectedOption.dataset.distance) : 0;
+    const estimatedDays = distance ? calculateEstimatedDays(distance) : "Tentukan lokasi";
+    const orderId = Date.now().toString();
+    cart.push({ 
+        orderId, title, price, quantity, color, size, image, code,
+        shipping: "JNE", payment: "COD", location: location || "Belum dipilih", 
+        estimatedDays, status: "pending"
+    });
+    saveCart();
+    renderCart();
+    updateCartCount();
+    updateProductCardStatus();
+};
+
+const removeFromCart = (index) => {
+    const cancelledOrder = cart[index];
+    cart.splice(index, 1);
+    saveCart();
+    renderCart();
+    updateCartCount();
+    updateProductCardStatus();
+    sendCancelNotificationToSeller(cancelledOrder);
+};
+
+const sendOrderToSeller = (order) => {
+    const confirmationLinkForSeller = `${window.location.origin}/seller-confirm?orderId=${order.orderId}`;
+    const templateParams = {
+        to_email: "raafinfl123@gmail.com",
+        product_title: order.title,
+        product_price: order.price,
+        quantity: order.quantity,
+        color: order.color,
+        size: order.size,
+        location: order.location,
+        estimated_days: order.estimatedDays,
+        total_price: `Rp ${(parseInt(order.price.replace(/[^0-9]/g, '')) * order.quantity).toLocaleString('id-ID')}`,
+        product_code: order.code,
+        confirmation_link: confirmationLinkForSeller
+    };
+    emailjs.send('Kompe', 'template_qn9g45n', templateParams)
+        .then(() => {
+            console.log('Email ke penjual berhasil dikirim!');
+            notificationSound.play();
+        })
+        .catch(error => {
+            console.error('Gagal mengirim email ke penjual:', error);
+            alert('Gagal mengirim email ke penjual.');
+        });
+};
+
+const sendProcessedNotification = (order) => {
+    const templateParams = {
+        to_email: "raafinfl123@gmail.com",
+        product_title: order.title,
+        product_price: order.price,
+        quantity: order.quantity,
+        total_price: `Rp ${(parseInt(order.price.replace(/[^0-9]/g, '')) * order.quantity).toLocaleString('id-ID')}`,
+        estimated_days: order.estimatedDays,
+        location: order.location,
+        product_code: order.code
+    };
+    emailjs.send('Kompe', 'template_processed', templateParams)
+        .then(() => {
+            console.log('Notifikasi ke pembeli berhasil dikirim!');
+            alert(`Pesanan "${order.title}" telah diproses! Estimasi pengiriman: ${order.estimatedDays}`);
+        })
+        .catch(error => {
+            console.error('Gagal mengirim notifikasi ke pembeli:', error);
+            alert('Pesanan diproses, tapi gagal mengirim notifikasi.');
+        });
+};
+
+const sendCancelNotificationToSeller = (order) => {
+    const templateParams = {
+        to_email: "raafinfl123@gmail.com",
+        product_title: order.title,
+        product_price: order.price,
+        quantity: order.quantity,
+        color: order.color,
+        size: order.size,
+        location: order.location,
+        product_code: order.code,
+        cancel_time: new Date().toLocaleString('id-ID'),
+        message: `Pembeli telah membatalkan pesanan untuk ${order.title}`
+    };
+    
+    emailjs.send('Kompe', 'template_cancel', templateParams)
+        .then(() => {
+            console.log('Email pembatalan ke penjual berhasil dikirim!');
+            notificationSound.play();
+        })
+        .catch(error => {
+            console.error('Gagal mengirim email pembatalan:', error);
+            alert('Gagal mengirim notifikasi pembatalan ke penjual.');
+        });
+};
+
+const confirmOrder = (index) => {
+    cart[index].status = "confirmed";
+    saveCart();
+    sendOrderToSeller(cart[index]);
+    coolConfirmSound.play();
+    renderCart();
+    alert("Pesanan telah dikonfirmasi dan menunggu persetujuan penjual!");
+    setTimeout(() => {
+        cart[index].status = "processed";
+        saveCart();
+        sendProcessedNotification(cart[index]);
+        renderCart();
+        updateProductCardStatus();
+    }, 3000);
+};
+
+const calculateEstimatedDays = (distance) => {
+    if (distance < 100) return "1-2 hari";
+    if (distance <= 500) return "2-3 hari";
+    if (distance <= 1000) return "3-5 hari";
+    return "5-7 hari";
+};
+
+const renderCart = () => {
+    elements.cartItems.innerHTML = cart.map((item, index) => `
+        <li class="cart-item">
+            <img src="${item.image}" alt="${item.title}">
+            <div class="cart-item-details">
+                <span>${item.title} (x${item.quantity})</span>
+                <span>Kode: ${item.code}</span>
+                <span>Warna: ${item.color}, Ukuran: ${item.size}</span>
+                <span>Pengiriman: ${item.shipping}, Pembayaran: ${item.payment}</span>
+                <span>Lokasi: ${item.location}</span>
+                <span>Estimasi: ${item.estimatedDays}</span>
+                <span>Status: ${item.status === "pending" ? "Menunggu Konfirmasi" : item.status === "confirmed" ? "Dikonfirmasi (Menunggu Penjual)" : "Diproses"}</span>
+            </div>
+            <button class="cancel-button" data-index="${index}">Batalkan</button>
+            ${item.status === "pending" ? `<button class="confirm-order-button" data-index="${index}">Konfirmasi</button>` : ""}
+        </li>
+    `).join('');
+    document.querySelectorAll('.confirm-order-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const index = parseInt(e.target.dataset.index);
+            confirmOrder(index);
+        });
+    });
+};
+
+const updateCartCount = () => elements.cartCount.textContent = cart.length;
+
+const updateProductCardStatus = () => {
+    const allCards = document.querySelectorAll('.product-card');
+    allCards.forEach(card => {
+        const title = card.querySelector('.product-title').textContent;
+        const code = card.querySelector('.buy-button').dataset.code;
+        const isOrdered = cart.some(item => item.title === title && item.code === code);
+        if (isOrdered) {
+            card.classList.add('ordered');
+        } else {
+            card.classList.remove('ordered');
+        }
+    });
+};
+
+const filterProducts = (searchTerm, option) => {
+    productCards.forEach(card => {
+        const title = card.querySelector('.product-title').textContent.toLowerCase();
+        const price = card.querySelector('.product-price').textContent.toLowerCase();
+        const category = card.dataset.category.toLowerCase();
+        const term = searchTerm.toLowerCase();
+        const match = option === 'title' ? title.includes(term) :
+                      option === 'price' ? price.includes(term) :
+                      option === 'category' ? category.includes(term) : false;
+        card.style.display = match ? 'block' : 'none';
+    });
+};
+
+const populateVariants = (variants) => {
+    const { colors, sizes } = JSON.parse(variants);
+    elements.colorOption.innerHTML = '<option value="" disabled selected>Pilih</option>' + 
+        colors.map(color => `<option value="${color}">${color}</option>`).join('');
+    elements.sizeOption.innerHTML = '<option value="" disabled selected>Pilih</option>' + 
+        sizes.map(size => `<option value="${size}">${size}</option>`).join('');
+};
+
+const resetModal = () => {
+    elements.quantityInput.value = 1;
+    elements.colorOption.value = '';
+    elements.sizeOption.value = '';
+    elements.locationOption.value = '';
+    elements.estimationText.textContent = 'Estimasi: Pilih lokasi';
+    elements.confirmBuy.disabled = false;
+};
+
+const showModal = (title, price, image, code, variants) => {
+    selectedProduct = { title, price, image, code };
+    elements.buyModal.style.display = 'block';
+    populateVariants(variants);
+    resetModal();
+};
+
+const hideModal = () => elements.buyModal.style.display = 'none';
+
+const confirmPurchase = () => {
+    const quantity = parseInt(elements.quantityInput.value);
+    const color = elements.colorOption.value;
+    const size = elements.sizeOption.value;
+    const location = elements.locationOption.value;
+
+    if (!color) return alert('Pilih warna terlebih dahulu!');
+    if (!size) return alert('Pilih ukuran terlebih dahulu!');
+    if (!location) return alert('Pilih lokasi terlebih dahulu!');
+    if (quantity < 1) return alert('Jumlah harus lebih dari 0!');
+
+    addToCart(selectedProduct.title, selectedProduct.price, quantity, color, size, selectedProduct.image, selectedProduct.code, location);
+    alert("Pesanan ditambahkan ke keranjang. Silakan konfirmasi untuk melanjutkan.");
+    hideModal();
+};
+
+// Enhanced QR code scanner
+const startQrScanner = () => {
+    elements.qrReader.style.display = 'block';
+    qrScanner = new Html5Qrcode("qr-reader");
+    qrScanner.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: { width: 250, height: 250 } },
+        (decodedText) => {
+            stopQrScanner();
+            if (decodedText.startsWith('http')) {
+                window.location.href = decodedText;
+            } else if (decodedText.match(/^[A-Z]{3}-\d{4}$/)) {
+                const product = products.find(p => p.code === decodedText);
+                if (product) {
+                    showModal(product.name, `Rp ${product.price.toLocaleString('id-ID')}`, product.image_path, product.code, '{"colors": ["Hitam", "Putih"], "sizes": ["Standar"]}');
+                    alert(`Produk ditemukan: ${product.name} (Kode: ${product.code})`);
+                } else {
+                    alert(`Kode barang ${decodedText} tidak ditemukan!`);
+                }
+            } else {
+                alert(`QR Code terdeteksi: ${decodedText}`);
+            }
+        },
+        (error) => console.warn(`QR Code scan error: ${error}`)
+    ).catch(err => alert('Gagal memulai pemindai QR: ' + err));
+};
+
+const stopQrScanner = () => {
+    if (qrScanner) {
+        qrScanner.stop().then(() => {
+            elements.qrReader.style.display = 'none';
+            qrScanner = null;
+        }).catch(err => console.error('Gagal menghentikan pemindai QR: ' + err));
+    }
+};
+
+elements.productGrid.addEventListener('click', e => {
+    const buyButton = e.target.closest('.buy-button');
+    if (buyButton) {
+        const { title, price, image, code, variants } = buyButton.dataset;
+        showModal(title, price, image, code, variants);
+    }
+});
+
+elements.closeModal.addEventListener('click', hideModal);
+elements.confirmBuy.addEventListener('click', confirmPurchase);
+
+elements.cartDropdown.addEventListener('click', e => {
+    const cancelButton = e.target.closest('.cancel-button');
+    if (cancelButton) {
+        const index = parseInt(cancelButton.dataset.index);
+        if (confirm('Batalkan pembelian ini?')) {
+            removeFromCart(index);
+            notificationSound.play();
+            alert('Pesanan telah dibatalkan dan notifikasi telah dikirim ke penjual!');
+        }
+    }
+});
+
+elements.qrScanButton.addEventListener('click', () => {
+    if (!qrScanner) startQrScanner();
+    else stopQrScanner();
+});
+
+elements.locationOption.addEventListener('change', () => {
+    const selectedOption = elements.locationOption.options[elements.locationOption.selectedIndex];
+    const distance = selectedOption.dataset.distance ? parseInt(selectedOption.dataset.distance) : 0;
+    const estimatedDays = distance ? calculateEstimatedDays(distance) : "Pilih lokasi";
+    elements.estimationText.textContent = `Estimasi: ${estimatedDays}`;
+});
+
+elements.messageLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    showMessageModal();
+});
+
+elements.closeMessageModal.addEventListener('click', hideMessageModal);
+elements.sendMessage.addEventListener('click', sendMessage);
+
+window.addEventListener('click', e => {
+    if (e.target === elements.buyModal) hideModal();
+    if (e.target === elements.messageModal) hideMessageModal();
+    if (!elements.cartIcon.contains(e.target) && !elements.cartDropdown.contains(e.target)) {
+        elements.cartDropdown.style.display = 'none';
+    }
+    if (!elements.navToggle.contains(e.target) && !elements.navMenu.contains(e.target)) {
+        elements.navMenu.classList.remove('active');
+    }
+});
+
+elements.cartIcon.addEventListener('click', () => {
+    elements.cartDropdown.style.display = elements.cartDropdown.style.display === 'block' ? 'none' : 'block';
+});
+
+elements.navToggle.addEventListener('click', () => elements.navMenu.classList.toggle('active'));
+elements.searchInput.addEventListener('input', () => filterProducts(elements.searchInput.value, elements.searchOption.value));
+elements.searchOption.addEventListener('change', () => filterProducts(elements.searchInput.value, elements.searchOption.value));
+
+window.onload = () => {
+    loadProductsFromServer();
+    renderCart();
+    updateCartCount();
+};
+    </script>
+</body>
+</html>

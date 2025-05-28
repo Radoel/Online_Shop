@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan Kami</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a0933, #4b1e8e);
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Efek latar belakang animasi */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            animation: glow 15s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(1.2); opacity: 0.5; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            animation: fadeIn 1s ease-out;
+        }
+
+        header h1 {
+            font-size: 40px;
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        header p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 10px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: calc(0.2s * var(--i));
+        }
+
+        .service-card:nth-child(1) { --i: 1; }
+        .service-card:nth-child(2) { --i: 2; }
+        .service-card:nth-child(3) { --i: 3; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+            transform: rotate(45deg);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid #ffd700;
+        }
+
+        .service-card h2 {
+            font-size: 24px;
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .service-card p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+
+        .service-card .icon {
+            font-size: 40px;
+            color: #ffd700;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .icon {
+            transform: scale(1.2);
+        }
+
+        .btn-back {
+            display: block;
+            width: 200px;
+            margin: 40px auto 0;
+            padding: 12px;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            border: none;
+            border-radius: 25px;
+            color: #1a0933;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-back::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn-back:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-back:hover {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 32px;
+            }
+            .service-card {
+                padding: 20px;
+            }
+            .service-card h2 {
+                font-size: 20px;
+            }
+            .service-card p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Layanan Kami</h1>
+            <p>Beragam solusi desain premium untuk kebutuhan Anda</p>
+        </header>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="icon">🎨</div>
+                <h2>Desain Grafis</h2>
+                <p>Kami menciptakan desain visual yang memukau untuk branding, poster, dan media sosial Anda.</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">🌐</div>
+                <h2>Pengembangan Web</h2>
+                <p>Website modern, responsif, dan fungsional yang meningkatkan kehadiran online Anda.</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">📱</div>
+                <h2>Aplikasi Mobile</h2>
+                <p>Aplikasi mobile inovatif yang dirancang untuk pengalaman pengguna terbaik.</p>
+            </div>
+        </div>
+        <a href="dashboard.html" class="btn-back">Kembali ke Dashboard</a>
+    </div>
+
+    <script>
+        // Cek status login
+        const account = JSON.parse(localStorage.getItem('account'));
+        if (!account || !account.isLoggedIn) {
+            alert('Silakan login terlebih dahulu!');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

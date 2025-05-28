@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentasi Pekerjaan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a0933, #4b1e8e);
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            animation: glow 15s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(1.2); opacity: 0.5; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            animation: fadeIn 1s ease-out;
+        }
+
+        header h1 {
+            font-size: 40px;
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        header p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 10px;
+        }
+
+        .add-form {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            border: 1px solid #ffd700;
+        }
+
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            border: none;
+            border-radius: 25px;
+            color: #1a0933;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .doc-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: calc(0.2s * var(--i));
+            position: relative;
+        }
+
+        .doc-card:nth-child(1) { --i: 1; }
+        .doc-card:nth-child(2) { --i: 2; }
+        .doc-card:nth-child(3) { --i: 3; }
+
+        .doc-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid #ffd700;
+        }
+
+        .doc-card h2 {
+            font-size: 22px;
+            color: #ffd700;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .doc-card p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .doc-card .uploader {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 10px;
+        }
+
+        .doc-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .doc-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .btn-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 15px;
+            background: linear-gradient(90deg, #ff4d4d, #ff1a1a);
+            border: none;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background: linear-gradient(90deg, #ff1a1a, #cc0000);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+
+        .btn-back {
+            display: block;
+            width: 200px;
+            margin: 40px auto 0;
+            padding: 12px;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            border: none;
+            border-radius: 25px;
+            color: #1a0933;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-back::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn-back:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-back:hover {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 32px;
+            }
+            .add-form, .doc-card {
+                padding: 20px;
+            }
+            .doc-card h2 {
+                font-size: 20px;
+            }
+            .doc-card p {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dokumentasi Pekerjaan</h1>
+            <p>Catatan proyek yang telah kami kerjakan</p>
+        </header>
+
+        <!-- Form untuk menambah dokumentasi -->
+        <div class="add-form">
+            <form id="docForm">
+                <div class="form-group">
+                    <label for="title">Judul Proyek</label>
+                    <input type="text" id="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Deskripsi</label>
+                    <textarea id="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image">Unggah Gambar</label>
+                    <input type="file" id="image" accept="image/*">
+                </div>
+                <button type="submit" class="btn">Tambah Dokumentasi</button>
+            </form>
+        </div>
+
+        <!-- Daftar dokumentasi -->
+        <div class="docs-grid" id="docsGrid">
+            <!-- Dokumentasi akan ditambahkan secara dinamis -->
+        </div>
+
+        <a href="dashboard.html" class="btn-back">Kembali ke Dashboard</a>
+    </div>
+
+    <script>
+        // Cek status login
+        const account = JSON.parse(localStorage.getItem('account'));
+        if (!account || !account.isLoggedIn) {
+            alert('Silakan login terlebih dahulu!');
+            window.location.href = 'login.html';
+        }
+
+        // Mengambil data dokumentasi dari localStorage atau inisialisasi array kosong
+        let documentation = JSON.parse(localStorage.getItem('documentation')) || [];
+
+        const docForm = document.getElementById('docForm');
+        const docsGrid = document.getElementById('docsGrid');
+        const currentUser = account.username;
+
+        // Fungsi untuk menampilkan dokumentasi
+        function displayDocumentation() {
+            docsGrid.innerHTML = '';
+            documentation.forEach((doc, index) => {
+                const card = document.createElement('div');
+                card.classList.add('doc-card');
+                card.style.setProperty('--i', index + 1);
+                
+                const deleteButton = doc.uploader === currentUser 
+                    ? `<button class="btn-delete" data-index="${index}">Hapus</button>`
+                    : '';
+
+                card.innerHTML = `
+                    <h2>${doc.title}</h2>
+                    <p class="uploader">Diunggah oleh: ${doc.uploader}</p>
+                    <p>${doc.description}</p>
+                    ${doc.image ? `<img src="${doc.image}" alt="${doc.title}">` : ''}
+                    ${deleteButton}
+                `;
+                docsGrid.appendChild(card);
+            });
+
+            document.querySelectorAll('.btn-delete').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = e.target.getAttribute('data-index');
+                    deleteDocumentation(index);
+                });
+            });
+        }
+
+        // Fungsi untuk menghapus dokumentasi
+        function deleteDocumentation(index) {
+            const doc = documentation[index];
+            if (doc.uploader !== currentUser) {
+                alert('Anda tidak memiliki izin untuk menghapus dokumentasi ini!');
+                return;
+            }
+
+            if (confirm('Apakah Anda yakin ingin menghapus dokumentasi ini?')) {
+                documentation.splice(index, 1);
+                localStorage.setItem('documentation', JSON.stringify(documentation));
+                displayDocumentation();
+            }
+        }
+
+        // Fungsi untuk mendeteksi konten tidak pantas berdasarkan deskripsi
+        function isInappropriate(doc) {
+            const inappropriateKeywords = [
+                // Kata kunci kekerasan
+                'darah', 'pukul', 'bunuh', 'senjata', 'kekerasan', 'tembak',
+                // Kata kunci pornografi
+                'telanjang', 'bugil', 'seks', 'porno', 'erotis', 'dewasa'
+            ];
+            const descLower = doc.description.toLowerCase();
+            return inappropriateKeywords.some(keyword => descLower.includes(keyword));
+        }
+
+        // Tampilkan dokumentasi saat halaman dimuat
+        displayDocumentation();
+
+        // Menangani submit form
+        docForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById('title').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const imageInput = document.getElementById('image');
+            let imageData = '';
+
+            const newDoc = { title, description, uploader: currentUser };
+
+            // Cek deskripsi untuk konten tidak pantas
+            if (isInappropriate(newDoc)) {
+                alert('Dokumentasi mengandung konten tidak pantas (kekerasan atau pornografi) dan tidak dapat ditambahkan!');
+                docForm.reset();
+                return;
+            }
+
+            // Jika ada gambar yang diunggah
+            if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    imageData = event.target.result;
+
+                    // Tambahkan dokumentasi baru
+                    newDoc.image = imageData;
+                    documentation.unshift(newDoc);
+                    localStorage.setItem('documentation', JSON.stringify(documentation));
+                    displayDocumentation();
+
+                    // Reset form
+                    docForm.reset();
+                };
+                reader.readAsDataURL(imageInput.files[0]);
+            } else {
+                // Tambahkan tanpa gambar
+                documentation.unshift(newDoc);
+                localStorage.setItem('documentation', JSON.stringify(documentation));
+                displayDocumentation();
+
+                // Reset form
+                docForm.reset();
+            }
+        });
+    </script>
+</body>
+</html>
